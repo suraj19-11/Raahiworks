@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useAuth } from "@/lib/auth-context";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -15,6 +16,8 @@ import {
 
 export default function Navbar() {
   const { isAuthenticated, user, logout } = useAuth();
+  const pathname = usePathname();
+
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
@@ -24,6 +27,10 @@ export default function Navbar() {
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  if (pathname === "/login" || pathname === "/signup" || pathname?.startsWith("/dashboard")) {
+    return null;
+  }
 
   const navLinks = [
     { label: "Home", href: "/" },
@@ -44,8 +51,8 @@ export default function Navbar() {
         <div className="flex h-[72px] items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5 group">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-white transition-transform group-hover:scale-105">
-              <Zap size={20} strokeWidth={2.5} />
+            <div className="flex h-10 w-10 items-center justify-center transition-transform group-hover:scale-105 rounded-xl overflow-hidden">
+              <img src="/logo.png" alt="Raahi Logo" className="w-full h-full object-cover" />
             </div>
             <span className="text-xl font-bold tracking-tight text-text-primary">
               Raahi

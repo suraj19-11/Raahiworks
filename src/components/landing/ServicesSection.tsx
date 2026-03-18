@@ -1,72 +1,64 @@
 "use client";
 
 import { motion } from "framer-motion";
-import {
-  Zap,
-  Wrench,
-  Hammer,
-  Paintbrush,
-  Sparkles,
-  PartyPopper,
-  Snowflake,
-} from "lucide-react";
+import Image from "next/image";
 
 const services = [
   {
-    icon: Zap,
+    image: "/services/electrician.png",
     title: "Electrician",
     description: "Wiring, repairs, installations & electrical safety inspections for your home.",
     color: "from-amber-500 to-orange-500",
     bg: "bg-amber-50",
-    iconColor: "text-amber-600",
   },
   {
-    icon: Wrench,
+    image: "/services/plumber.png",
     title: "Plumber",
     description: "Pipe repairs, leak fixing, bathroom fitting & drainage solutions.",
     color: "from-blue-500 to-cyan-500",
     bg: "bg-blue-50",
-    iconColor: "text-blue-600",
   },
   {
-    icon: Hammer,
+    image: "/services/carpenter.png",
     title: "Carpenter",
     description: "Furniture repair, custom woodwork, door fitting & cabinet installations.",
     color: "from-orange-500 to-amber-600",
     bg: "bg-orange-50",
-    iconColor: "text-orange-600",
   },
   {
-    icon: Paintbrush,
+    image: "/services/painter.png",
     title: "Painter",
     description: "Interior & exterior painting, wall textures & waterproofing solutions.",
     color: "from-pink-500 to-rose-500",
     bg: "bg-pink-50",
-    iconColor: "text-pink-600",
   },
   {
-    icon: Sparkles,
+    image: "/services/cleaner.png",
     title: "Cleaner",
     description: "Deep cleaning, sanitization, kitchen & bathroom cleaning services.",
     color: "from-emerald-500 to-green-500",
     bg: "bg-emerald-50",
-    iconColor: "text-emerald-600",
   },
   {
-    icon: PartyPopper,
+    image: "/services/event-helper.png",
     title: "Event Helper",
     description: "Event setup, decoration, catering assistance & venue management.",
     color: "from-purple-500 to-violet-500",
     bg: "bg-purple-50",
-    iconColor: "text-purple-600",
   },
   {
-    icon: Snowflake,
+    image: "/services/ac-repair.png",
     title: "AC Repair",
     description: "AC servicing, gas refilling, installation & maintenance services.",
     color: "from-cyan-500 to-sky-500",
     bg: "bg-cyan-50",
-    iconColor: "text-cyan-600",
+  },
+  {
+    image: "/services/tailor.png",
+    title: "Tailor",
+    description: "Stitching, alterations, custom clothing & fabric repair services.",
+    color: "from-rose-500 to-pink-600",
+    bg: "bg-rose-50",
   },
 ];
 
@@ -80,8 +72,8 @@ const containerVariants = {
 };
 
 const cardVariants = {
-  hidden: { opacity: 0, y: 24 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+  hidden: { opacity: 0, y: 30, scale: 0.95 },
+  show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5, type: "spring", stiffness: 100 } },
 };
 
 export default function ServicesSection() {
@@ -94,7 +86,7 @@ export default function ServicesSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="text-center mb-16"
+          className="text-center mb-10 md:mb-16"
         >
           <span className="inline-block text-sm font-semibold text-primary tracking-wider uppercase mb-3">
             Our Services
@@ -117,27 +109,33 @@ export default function ServicesSection() {
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"
         >
           {services.map((service) => {
-            const Icon = service.icon;
             return (
               <motion.div
                 key={service.title}
                 variants={cardVariants}
-                className="group relative bg-white rounded-2xl p-6 cursor-pointer border border-gray-100 hover:border-primary/20 transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
+                className="group relative bg-white rounded-2xl overflow-hidden cursor-pointer border border-gray-100 hover:border-primary/20 transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
               >
-                {/* Icon */}
-                <div
-                  className={`${service.bg} h-14 w-14 rounded-xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300`}
-                >
-                  <Icon size={26} className={service.iconColor} />
+                {/* Service Image */}
+                <div className="relative h-48 w-full overflow-hidden bg-gray-100">
+                  <Image
+                    src={service.image}
+                    alt={service.title}
+                    fill
+                    className="object-cover group-hover:scale-110 transition-transform duration-500"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                  />
+                  <div className={`absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent`} />
                 </div>
 
                 {/* Content */}
-                <h3 className="text-lg font-bold text-text-primary mb-2">
-                  {service.title}
-                </h3>
-                <p className="text-sm text-text-secondary leading-relaxed">
-                  {service.description}
-                </p>
+                <div className="p-5">
+                  <h3 className="text-lg font-bold text-text-primary mb-2">
+                    {service.title}
+                  </h3>
+                  <p className="text-sm text-text-secondary leading-relaxed">
+                    {service.description}
+                  </p>
+                </div>
 
                 {/* Hover gradient line */}
                 <div

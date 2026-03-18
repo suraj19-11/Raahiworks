@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   Zap,
   Mail,
@@ -11,6 +14,12 @@ import {
 } from "lucide-react";
 
 export default function Footer() {
+  const pathname = usePathname();
+  
+  if (pathname === "/login" || pathname === "/signup" || pathname.startsWith("/dashboard")) {
+    return null;
+  }
+
   return (
     <footer className="bg-[#1a1a1a] text-white">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
@@ -18,8 +27,8 @@ export default function Footer() {
           {/* Brand */}
           <div className="space-y-5">
             <Link href="/" className="flex items-center gap-2.5">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-white">
-                <Zap size={20} strokeWidth={2.5} />
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl overflow-hidden">
+                <img src="/logo.png" alt="Raahi Logo" className="w-full h-full object-cover" />
               </div>
               <span className="text-xl font-bold">Raahi</span>
             </Link>
@@ -28,10 +37,17 @@ export default function Footer() {
               Quality work, just a click away.
             </p>
             <div className="flex items-center gap-3">
-              {[Facebook, Twitter, Instagram, Linkedin].map((Icon, i) => (
+              {[
+                { icon: Facebook, href: "#" },
+                { icon: Twitter, href: "#" },
+                { icon: Instagram, href: "https://www.instagram.com/raahiworks.in?igsh=NmNhYW4yZmkxbHVn" },
+                { icon: Linkedin, href: "#" },
+              ].map(({ icon: Icon, href }, i) => (
                 <a
                   key={i}
-                  href="#"
+                  href={href}
+                  target={href !== "#" ? "_blank" : undefined}
+                  rel={href !== "#" ? "noopener noreferrer" : undefined}
                   className="flex h-9 w-9 items-center justify-center rounded-lg bg-white/10 hover:bg-primary transition-colors"
                 >
                   <Icon size={16} />
@@ -87,19 +103,19 @@ export default function Footer() {
               <li className="flex items-start gap-3">
                 <MapPin size={16} className="text-primary mt-0.5 shrink-0" />
                 <span className="text-sm text-gray-400">
-                  Bengaluru, Karnataka, India
+                  Mira Bhayandar, Maharashtra, India
                 </span>
               </li>
               <li className="flex items-center gap-3">
                 <Mail size={16} className="text-primary shrink-0" />
-                <a href="mailto:hello@raahi.in" className="text-sm text-gray-400 hover:text-white transition-colors">
-                  hello@raahi.in
+                <a href="mailto:joinraahi@gmail.com" className="text-sm text-gray-400 hover:text-white transition-colors">
+                  joinraahi@gmail.com
                 </a>
               </li>
               <li className="flex items-center gap-3">
                 <Phone size={16} className="text-primary shrink-0" />
-                <a href="tel:+919876543210" className="text-sm text-gray-400 hover:text-white transition-colors">
-                  +91 98765 43210
+                <a href="tel:+919004391220" className="text-sm text-gray-400 hover:text-white transition-colors">
+                  +91 9004391220
                 </a>
               </li>
             </ul>
